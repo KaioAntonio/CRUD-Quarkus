@@ -23,4 +23,28 @@ public class PersonService {
         personRepository.persist(person);
         return person;
     }
+
+    public Person findById(Long id) {
+        return personRepository.findById(id);
+    }
+
+    @Transactional
+    public Person updatePerson(Long id, Person newPerson) {
+        Person oldPerson = findById(id);
+        if (oldPerson != null) {
+            oldPerson.setName(newPerson.getName());
+            oldPerson.setAge(newPerson.getAge());
+            personRepository.persist(oldPerson);
+        }
+        return oldPerson;
+    }
+
+    @Transactional
+    public void deletePerson(Long id) {
+        Person person = findById(id);
+        if (person != null) {
+            personRepository.delete(person);
+        }
+    }
+
 }
